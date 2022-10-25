@@ -9,7 +9,7 @@ import StudyList from './StudyList.json';
 import UserPreferencesModal from './UserPreferencesModal.json';
 import ViewportDownloadForm from './ViewportDownloadForm.json';
 
-export default { 
+export default {
   'fr': {
     AboutModal,
     Buttons,

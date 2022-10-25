@@ -11,6 +11,10 @@ import { useTranslation } from 'react-i18next';
 import './ViewportDownloadForm.styl';
 import { TextInput, Select, Icon } from '@ohif/ui';
 import classnames from 'classnames';
+import configData from "../../../../../viewer/public/config/bm_config.json";
+//import { ui } from '../../../../../../core/src';
+
+
 
 const FILE_TYPE_OPTIONS = [
   {
@@ -94,6 +98,33 @@ const ViewportDownloadForm = ({
       downloadCanvas.ref.current
     );
   };
+
+  const addToAttachment = () => {
+    var uid = window.location.pathname.replace('/viewer/', '');
+    var allInfo = uid.split('.');
+    var data = JSON.stringify({
+      "image": viewportPreview.src.replace('data:image/png;base64,', ''),
+      "procedureId": "274781" //allInfo[6].toString() //"274781"
+    });
+    fetch(configData.SERVER_URL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      body: data
+    }).then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        onClose();
+        // Handle data
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+
+  }
 
   /**
    * @param {object} event - Input change event
@@ -387,6 +418,8 @@ const ViewportDownloadForm = ({
       )}
 
       <div className="actions">
+
+
         <div className="action-cancel">
           <button
             type="button"
@@ -395,6 +428,16 @@ const ViewportDownloadForm = ({
             onClick={onClose}
           >
             {t('Buttons:Cancel')}
+          </button>
+        </div>
+        <div className="action-cancel">
+          <button
+            type="button"
+            data-cy="cancel-btn"
+            className="btn btn-success"
+            onClick={addToAttachment}
+          >
+            Attacher
           </button>
         </div>
         <div className="action-save">
