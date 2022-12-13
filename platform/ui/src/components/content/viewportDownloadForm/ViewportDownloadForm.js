@@ -104,15 +104,15 @@ const ViewportDownloadForm = ({
     var allInfo = uid.split('.');
     var data = JSON.stringify({
       "image": viewportPreview.src.replace('data:image/png;base64,', ''),
-      "procedureId": "274781" //allInfo[6].toString() //"274781"
+      "procedureId": allInfo[6].toString()
     });
     fetch(configData.SERVER_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      mode: 'cors',
       body: data
     }).then((response) => response.json())
       .then((data) => {
@@ -407,7 +407,6 @@ const ViewportDownloadForm = ({
             src={viewportPreview.src}
             alt={t('imagePreview')}
             data-cy="image-preview"
-            data-cy="viewport-preview-img"
           />
         </div>
       ) : (
